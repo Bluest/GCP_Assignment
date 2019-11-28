@@ -14,7 +14,7 @@ add_executable(GCP_Assignment
 	src/main.cpp
 )
 
-target_link_libraries(GCP_Assignment SDL2 SDL2main)
+target_link_libraries(GCP_Assignment SDL2)
 
 add_custom_command(TARGET GCP_Assignment
 	POST_BUILD

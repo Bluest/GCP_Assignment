@@ -1,5 +1,6 @@
 #include <iostream>
-#include <SDL.h>
+#include <SDL2/SDL.h>
+#include <glm/glm.hpp>
 
 void init(SDL_Window** _window, SDL_Renderer** _renderer)
 {
@@ -12,7 +13,7 @@ void init(SDL_Window** _window, SDL_Renderer** _renderer)
 	*_renderer = SDL_CreateRenderer(*_window, -1, SDL_RENDERER_ACCELERATED);
 }
 
-int main(int argc, char* argv[])
+int main()
 {
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
