@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
-#include <glm/glm.hpp>
+
+#include "Ray.h"
 
 void init(SDL_Window** _window, SDL_Renderer** _renderer)
 {
@@ -24,16 +25,18 @@ int main()
 	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 	SDL_RenderClear(renderer);
 
+	glm::vec3 pixel;
+
 	int posX = 0;
 	int posY = 0;
 	for (float j = 0.0f; j < 1.0f; j += 0.001f)
 	{
 		for (float i = 0.0f; i < 1.0f; i += 0.001f)
 		{
-			int r = static_cast<int>(255 - (256 * j));
-			int g = static_cast<int>(255 * i);
-			int b = static_cast<int>(256 * j);
-			SDL_SetRenderDrawColor(renderer, r, g, b, 255);
+			pixel.r = static_cast<int>(255 - (256 * j));
+			pixel.g = static_cast<int>(255 * i);
+			pixel.b = static_cast<int>(256 * j);
+			SDL_SetRenderDrawColor(renderer, pixel.r, pixel.g, pixel.b, 255);
 			SDL_RenderDrawPoint(renderer, posX, posY);
 			posX = static_cast<int>(640 * i);
 		}

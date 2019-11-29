@@ -11,6 +11,8 @@ link_directories(
 )
 
 add_executable(GCP_Assignment
+	src/Ray.h
+	src/Ray.cpp
 	src/main.cpp
 )
 
