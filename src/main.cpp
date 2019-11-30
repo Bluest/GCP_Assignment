@@ -1,7 +1,7 @@
 #include "App.h"
 #include "Ray.h"
 
-int main(int argc, char* argv[])
+int main()
 {
 	const int winW = 640;
 	const int winH = 480;
