@@ -13,10 +13,12 @@ link_directories(
 add_executable(GCP_Assignment
 	src/Ray.h
 	src/Ray.cpp
+	src/App.h
+	src/App.cpp
 	src/main.cpp
 )
 
-target_link_libraries(GCP_Assignment SDL2)
+target_link_libraries(GCP_Assignment SDL2 SDL2main)
 
 add_custom_command(TARGET GCP_Assignment
 	POST_BUILD

@@ -1,4 +1,3 @@
-#include <cmath>
 #include <glm/glm.hpp>
 
 class Ray
