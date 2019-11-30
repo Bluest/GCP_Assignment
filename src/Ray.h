@@ -9,5 +9,6 @@ private:
 public:
 	Ray(glm::vec3 _origin, glm::vec3 _direction);
 
+	glm::vec3 returnColour();
 	glm::vec3 getPointAt(float _t);
 };

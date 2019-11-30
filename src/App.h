@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <glm/glm.hpp>
 
 class App
 {
@@ -11,6 +12,7 @@ public:
 	App(int _winW, int _winH);
 	~App();
 
-	bool run();
+	void setPixelColour(int _x, int _y, glm::vec3 _colour);
 	void draw();
+	bool quit();
 };

@@ -10,3 +10,8 @@ glm::vec3 Ray::getPointAt(float _t)
 {
 	return origin + _t * direction;
 }
+
+glm::vec3 Ray::returnColour()
+{
+	return direction * 128.0f + 128.0f;
+}
