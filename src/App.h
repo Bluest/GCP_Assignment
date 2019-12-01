@@ -7,15 +7,15 @@ class App
 {
 private:
 	SDL_Window* window;
-	SDL_Renderer* renderer;
 	SDL_Event event;
 
 	Camera camera;
+
+	void processInput();
 
 public:
 	App(int _winW, int _winH);
 	~App();
 
 	void run();
-	void draw();
 };

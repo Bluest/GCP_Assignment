@@ -12,6 +12,8 @@ private:
 	void setPixelColour(int _x, int _y, glm::vec3 _colour);
 
 public:
-	void init(SDL_Renderer* _renderer, glm::vec3 _position, int _width, int _height);
-	void rayTrace();
+	void init(SDL_Window* _window, glm::vec3 _position);
+	~Camera();
+
+	void draw();
 };

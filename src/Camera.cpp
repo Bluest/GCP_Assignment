@@ -1,11 +1,19 @@
 #include "Camera.h"
 #include "Ray.h"
 
-void Camera::init(SDL_Renderer* _renderer, glm::vec3 _position, int _width, int _height)
+void Camera::init(SDL_Window* _window, glm::vec3 _position)
 {
-	renderer = _renderer;
+	renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 	position = _position;
-	resolution = glm::ivec2(_width, _height);
+
+	int w, h;
+	SDL_GetWindowSize(_window, &w, &h);
+	resolution = glm::ivec2(w, h);
+}
+
+Camera::~Camera()
+{
+	SDL_DestroyRenderer(renderer);
 }
 
 void Camera::setPixelColour(int _x, int _y, glm::vec3 _colour)
@@ -14,7 +22,7 @@ void Camera::setPixelColour(int _x, int _y, glm::vec3 _colour)
 	SDL_RenderDrawPoint(renderer, _x, _y);
 }
 
-void Camera::rayTrace()
+void Camera::draw()
 {
 	for (int y = 0; y < resolution.y; y++)
 	{
@@ -30,4 +38,6 @@ void Camera::rayTrace()
 			setPixelColour(x, y, ray.returnColour());
 		}
 	}
+
+	SDL_RenderPresent(renderer);
 }
