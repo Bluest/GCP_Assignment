@@ -4,7 +4,10 @@ App::App(int _winW, int _winH)
 {
 	SDL_Init(SDL_INIT_VIDEO);
 
-	window = SDL_CreateWindow("GCP Assignment", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _winW, _winH, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("GCP Assignment",
+		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+		_winW, _winH, SDL_WINDOW_SHOWN);
+
 	event = { NULL };
 }
 
@@ -12,14 +15,6 @@ App::~App()
 {
 	SDL_DestroyWindow(window);
 	SDL_Quit();
-}
-
-void App::run()
-{
-	camera.init(window, glm::vec3(0.0f, 0.0f, -1.0f));
-	camera.draw();
-
-	processInput();
 }
 
 void App::processInput()
@@ -36,4 +31,12 @@ void App::processInput()
 			}
 		}
 	}
+}
+
+void App::run()
+{
+	camera.init(window, glm::vec3(0.0f, 0.0f, -1.0f));
+	camera.draw();
+
+	processInput();
 }

@@ -16,9 +16,18 @@ Camera::~Camera()
 	SDL_DestroyRenderer(renderer);
 }
 
-void Camera::setPixelColour(int _x, int _y, glm::vec3 _colour)
+void Camera::traceRay(int _x, int _y)
 {
-	SDL_SetRenderDrawColor(renderer, _colour.r, _colour.g, _colour.b, 255);
+	// i ranges from -1 (at _x = 0) to 1 (at _x = resolution.x)
+	float i = 2 * float(_x) / resolution.x - 1.0f;
+
+	// j ranges from -1 (at _y = 0) to 1 (at _y = resolution.y)
+	float j = 2 * float(_y) / resolution.y - 1.0f;
+
+	Ray ray(position, glm::vec3(i, j, 1.0f));
+
+	glm::vec3 colour = ray.returnColour();
+	SDL_SetRenderDrawColor(renderer, colour.r, colour.g, colour.b, 255);
 	SDL_RenderDrawPoint(renderer, _x, _y);
 }
 
@@ -28,14 +37,7 @@ void Camera::draw()
 	{
 		for (int x = 0; x < resolution.x; x++)
 		{
-			// i ranges from -1 (at x = 0) to 1 (at x = winW)
-			float i = 2 * float(x) / resolution.x - 1.0f;
-
-			// j ranges from -1 (at y = 0) to 1 (at y = winH)
-			float j = 2 * float(y) / resolution.y - 1.0f;
-
-			Ray ray(position, glm::vec3(i, j, 1.0f));
-			setPixelColour(x, y, ray.returnColour());
+			traceRay(x, y);
 		}
 	}
 

@@ -9,7 +9,7 @@ private:
 	glm::vec3 position;
 	glm::ivec2 resolution;
 
-	void setPixelColour(int _x, int _y, glm::vec3 _colour);
+	void traceRay(int _x, int _y);
 
 public:
 	void init(SDL_Window* _window, glm::vec3 _position);
