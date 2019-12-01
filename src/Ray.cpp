@@ -15,7 +15,7 @@ bool Ray::hitSphere(glm::vec3 _sphereCentre, float _sphereRadius)
 
 glm::vec3 Ray::returnColour()
 {
-	if (hitSphere(glm::vec3(0.0f, 0.0f, 1.0f), 0.5f))
+	if (hitSphere(glm::vec3(0.0f, 0.0f, 0.0f), 0.5f))
 		return glm::vec3(0.0f, 0.0f, 0.0f);
 
 	return direction * 128.0f + 128.0f;

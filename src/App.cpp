@@ -7,6 +7,8 @@ App::App(int _winW, int _winH)
 	window = SDL_CreateWindow("GCP Assignment", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _winW, _winH, SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	event = { NULL };
+
+	camera.init(renderer, glm::vec3(0.0f, 0.0f, -1.0f), _winW, _winH);
 }
 
 App::~App()
@@ -16,10 +18,9 @@ App::~App()
 	SDL_Quit();
 }
 
-void App::setPixelColour(int _x, int _y, glm::vec3 _colour)
+void App::run()
 {
-	SDL_SetRenderDrawColor(renderer, _colour.r, _colour.g, _colour.b, 255);
-	SDL_RenderDrawPoint(renderer, _x, _y);
+	camera.rayTrace();
 }
 
 void App::draw()

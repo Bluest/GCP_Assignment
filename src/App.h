@@ -1,6 +1,8 @@
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
 
+#include "Camera.h"
+
 class App
 {
 private:
@@ -8,10 +10,12 @@ private:
 	SDL_Renderer* renderer;
 	SDL_Event event;
 
+	Camera camera;
+
 public:
 	App(int _winW, int _winH);
 	~App();
 
-	void setPixelColour(int _x, int _y, glm::vec3 _colour);
+	void run();
 	void draw();
 };

@@ -11,8 +11,12 @@ link_directories(
 )
 
 add_executable(GCP_Assignment
+	src/Sphere.h
+	src/Sphere.cpp
 	src/Ray.h
 	src/Ray.cpp
+	src/Camera.h
+	src/Camera.cpp
 	src/App.h
 	src/App.cpp
 	src/main.cpp
