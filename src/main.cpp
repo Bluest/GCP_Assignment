@@ -19,16 +19,13 @@ int main()
 			// j ranges from -1 (at y = 0) to 1 (at y = winH)
 			float j = 2 * float(y) / winH - 1.0f;
 
-			Ray ray(origin, { i, j, 1.0f });
+			Ray ray(origin, glm::vec3(i, j, 1.0f));
 			glm::vec3 colour = ray.returnColour();
 			app.setPixelColour(x, y, colour);
 		}
 	}
 
-	while (!app.quit())
-	{
-		app.draw();
-	}
+	app.draw();
 
 	return 0;
 }

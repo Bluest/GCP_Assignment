@@ -25,18 +25,17 @@ void App::setPixelColour(int _x, int _y, glm::vec3 _colour)
 void App::draw()
 {
 	SDL_RenderPresent(renderer);
-}
 
-bool App::quit()
-{
-	while (SDL_PollEvent(&event))
+	bool quit = false;
+	while (!quit)
 	{
-		switch (event.type)
+		if (SDL_WaitEvent(&event))
 		{
-		case SDL_KEYDOWN: if (event.key.keysym.sym == SDLK_ESCAPE) return true; break;
-		case SDL_QUIT: return true;
+			switch (event.type)
+			{
+			case SDL_KEYDOWN: if (event.key.keysym.sym == SDLK_ESCAPE) quit = true; break;
+			case SDL_QUIT: quit = true;
+			}
 		}
 	}
-
-	return false;
 }

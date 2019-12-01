@@ -14,5 +14,4 @@ public:
 
 	void setPixelColour(int _x, int _y, glm::vec3 _colour);
 	void draw();
-	bool quit();
 };
