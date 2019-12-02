@@ -1,9 +1,11 @@
 #include "Camera.h"
+#include "Scene.h"
 #include "Ray.h"
 
-Camera::Camera(SDL_Window* _window, glm::vec3 _position)
+Camera::Camera(SDL_Window* _window, std::shared_ptr<Scene> _scene, glm::vec3 _position)
 {
 	renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
+	scene = _scene;
 	position = _position;
 
 	int w, h;
@@ -26,8 +28,8 @@ void Camera::traceRay(int _x, int _y)
 
 	Ray ray(position, glm::vec3(i, j, 1.0f));
 
-	glm::vec3 colour = ray.returnColour();
-	SDL_SetRenderDrawColor(renderer, colour.r, colour.g, colour.b, 255);
+	glm::vec3 colour = ray.returnColour(/*scene*/);
+	SDL_SetRenderDrawColor(renderer, int(colour.r), int(colour.g), int(colour.b), 255);
 	SDL_RenderDrawPoint(renderer, _x, _y);
 }
 

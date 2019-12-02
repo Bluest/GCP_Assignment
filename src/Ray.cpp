@@ -16,6 +16,7 @@ bool Ray::hitSphere(Sphere _sphere)
 
 glm::vec3 Ray::returnColour()
 {
+	// TODO: Loop through objects in scene
 	if (hitSphere(Sphere(glm::vec3(0.0f, 0.0f, 0.0f), 0.5f)))
 		return glm::vec3(0.0f, 0.0f, 0.0f);
 

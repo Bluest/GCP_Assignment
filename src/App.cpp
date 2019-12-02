@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Scene.h"
 #include "Camera.h"
 
 App::App(int _winW, int _winH)
@@ -8,7 +9,7 @@ App::App(int _winW, int _winH)
 	window = SDL_CreateWindow("GCP Assignment",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		_winW, _winH, SDL_WINDOW_SHOWN);
-
+	scene = std::make_shared<Scene>();
 	event = { NULL };
 }
 
@@ -36,10 +37,9 @@ void App::processInput()
 
 void App::run()
 {
-	// Scene scene();
-	// scene.addSphere();
+	scene->addSphere(glm::vec3(0.0f, 0.0f, 0.0f), 0.5f);
 
-	Camera camera(window, glm::vec3(0.0f, 0.0f, -1.0f));
+	Camera camera(window, scene, glm::vec3(0.0f, 0.0f, -1.0f));
 	camera.draw();
 
 	processInput();
