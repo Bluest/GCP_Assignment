@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include "Ray.h"
 
-void Camera::init(SDL_Window* _window, glm::vec3 _position)
+Camera::Camera(SDL_Window* _window, glm::vec3 _position)
 {
 	renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 	position = _position;

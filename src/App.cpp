@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Camera.h"
 
 App::App(int _winW, int _winH)
 {
@@ -35,7 +36,10 @@ void App::processInput()
 
 void App::run()
 {
-	camera.init(window, glm::vec3(0.0f, 0.0f, -1.0f));
+	// Scene scene();
+	// scene.addSphere();
+
+	Camera camera(window, glm::vec3(0.0f, 0.0f, -1.0f));
 	camera.draw();
 
 	processInput();

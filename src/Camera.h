@@ -12,7 +12,7 @@ private:
 	void traceRay(int _x, int _y);
 
 public:
-	void init(SDL_Window* _window, glm::vec3 _position);
+	Camera(SDL_Window* _window, glm::vec3 _position);
 	~Camera();
 
 	void draw();
