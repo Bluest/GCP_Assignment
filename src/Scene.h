@@ -1,15 +1,17 @@
 #include <list>
-#include <memory>
 
 #include <glm/glm.hpp>
 
-class Sphere;
+#include "Sphere.h"
+
+class Ray;
 
 class Scene
 {
 private:
-	std::list<std::shared_ptr<Sphere>> spheres;
+	std::list<Sphere> spheres;
 
 public:
 	void addSphere(glm::vec3 _centre, float _radius);
+	glm::ivec3 traceRay(Ray _ray);
 };

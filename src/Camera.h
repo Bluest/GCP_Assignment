@@ -1,23 +1,22 @@
-#include <memory>
-
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
 
+class Ray;
 class Scene;
 
 class Camera
 {
 private:
 	SDL_Renderer* renderer;
-	std::shared_ptr<Scene> scene;
 	glm::vec3 position;
 	glm::ivec2 resolution;
 
-	void traceRay(int _x, int _y);
+	Ray createRay(int _x, int _y);
+	void setPixelColour(int _x, int _y, glm::ivec3 _colour);
 
 public:
-	Camera(SDL_Window* _window, std::shared_ptr<Scene> _scene, glm::vec3 _position);
+	Camera(SDL_Window* _window, glm::vec3 _position);
 	~Camera();
 
-	void draw();
+	void draw(Scene _scene);
 };

@@ -1,3 +1,6 @@
+#ifndef SPHERE_H
+#define SPHERE_H
+
 #include <glm/glm.hpp>
 
 class Sphere
@@ -12,3 +15,5 @@ public:
 	glm::vec3 getCentre();
 	float getRadius();
 };
+
+#endif
