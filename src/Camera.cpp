@@ -39,7 +39,7 @@ Ray Camera::createRay(int _x, int _y)
 		j = 2 * aspectRatio * float(_y) / resolution.y - aspectRatio;
 	}
 
-	return Ray(position, glm::vec3(i, j, 1.0f));
+	return Ray(position, glm::vec3(i, j, -1.0f));
 }
 
 void Camera::setPixelColour(int _x, int _y, glm::ivec3 _colour)
@@ -54,7 +54,7 @@ void Camera::draw(Scene _scene)
 	{
 		for (int x = 0; x < resolution.x; x++)
 		{
-			setPixelColour(x, y, _scene.traceRay(createRay(x, y)));
+			setPixelColour(x, y, _scene.traceRay(createRay(x, resolution.y - y - 1)));
 		}
 	}
 

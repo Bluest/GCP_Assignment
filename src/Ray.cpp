@@ -7,6 +7,11 @@ Ray::Ray(glm::vec3 _origin, glm::vec3 _direction)
 	direction = glm::normalize(_direction);
 }
 
+glm::vec3 Ray::getPointAt(float _t)
+{
+	return origin + _t * direction;
+}
+
 Intersection Ray::hitSphere(Sphere _sphere)
 {
 	glm::vec3 rayOriginToSphereCentre = _sphere.getCentre() - origin;
@@ -22,5 +27,5 @@ Intersection Ray::hitSphere(Sphere _sphere)
 
 	float x = sqrt(_sphere.getRadius() * _sphere.getRadius() - distanceFromCentre * distanceFromCentre);
 
-	return { t, origin + (t - x) * direction };
+	return { t, getPointAt(t - x) };
 }

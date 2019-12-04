@@ -16,6 +16,7 @@ private:
 
 public:
 	Ray(glm::vec3 _origin, glm::vec3 _direction);
-
+	
+	glm::vec3 Ray::getPointAt(float _t);
 	Intersection hitSphere(Sphere _sphere);
 };
