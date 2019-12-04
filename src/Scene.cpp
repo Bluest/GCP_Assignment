@@ -14,21 +14,24 @@ void Scene::addSphere(glm::vec3 _centre, float _radius)
 
 glm::ivec3 Scene::traceRay(Ray _ray)
 {
-	Intersection closest = { INFINITY, glm::vec3() };
+	Intersection closest = { false };
 	glm::ivec3 colour = backgroundColour;
 
 	for (auto it = spheres.begin(); it != spheres.end(); it++)
 	{
-		Intersection i = _ray.hitSphere(*it);
+		Intersection intersection = it->rayHit(_ray);
 
-		if (i.distance >= 0.0f)
+		if (intersection.hit)
 		{
-			if (i.distance < closest.distance)
+			if (!closest.hit)
 			{
-				closest = i;
-
-				glm::vec3 normal = glm::normalize(closest.position - it->getCentre());
-				colour = glm::ivec3(127 * (normal.x + 1.0f), 127 * (normal.y + 1.0f), 127 * (normal.z + 1.0f));
+				closest = intersection;
+				colour = it->returnColour(closest.point);
+			}
+			else if (intersection.distance < closest.distance)
+			{
+				closest = intersection;
+				colour = it->returnColour(closest.point);
 			}
 		}
 	}

@@ -3,6 +3,8 @@
 
 #include <glm/glm.hpp>
 
+#include "Object.h"
+
 class Sphere
 {
 private:
@@ -12,8 +14,8 @@ private:
 public:
 	Sphere(glm::vec3 _centre, float _radius);
 
-	glm::vec3 getCentre();
-	float getRadius();
+	Intersection rayHit(Ray _ray);
+	glm::ivec3 returnColour(glm::vec3 _point);
 };
 
 #endif

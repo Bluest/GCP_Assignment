@@ -1,13 +1,5 @@
 #include <glm/glm.hpp>
 
-class Sphere;
-
-struct Intersection
-{
-	float distance;
-	glm::vec3 position;
-};
-
 class Ray
 {
 private:
@@ -17,6 +9,6 @@ private:
 public:
 	Ray(glm::vec3 _origin, glm::vec3 _direction);
 	
-	glm::vec3 Ray::getPointAt(float _t);
-	Intersection hitSphere(Sphere _sphere);
+	float getDistanceTo(glm::vec3 _point);
+	glm::vec3 getPointAt(float _distance);
 };
