@@ -37,10 +37,10 @@ void App::processInput()
 void App::run()
 {
 	Scene scene;
-	scene.addSphere(glm::vec3(0.0f, 0.0f, 0.0f), 0.5f);
-	scene.addSphere(glm::vec3(1.0f, 0.0f, 0.5f), 0.25f);
+	scene.addSphere(glm::vec3(0.0f, 0.0f, 1.0f), 0.5f);
+	scene.addSphere(glm::vec3(1.0f, 0.0f, 1.5f), 0.25f);
 
-	Camera camera(window, glm::vec3(0.0f, 0.0f, -1.0f));
+	Camera camera(window, glm::vec3(0.0f, 0.0f, 0.0f));
 	camera.draw(scene);
 
 	processInput();

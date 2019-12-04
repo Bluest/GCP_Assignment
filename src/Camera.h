@@ -8,8 +8,9 @@ class Camera
 {
 private:
 	SDL_Renderer* renderer;
-	glm::vec3 position;
 	glm::ivec2 resolution;
+	float aspectRatio;
+	glm::vec3 position;
 
 	Ray createRay(int _x, int _y);
 	void setPixelColour(int _x, int _y, glm::ivec3 _colour);

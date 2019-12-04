@@ -5,11 +5,17 @@
 Camera::Camera(SDL_Window* _window, glm::vec3 _position)
 {
 	renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
-	position = _position;
 
 	int w, h;
 	SDL_GetWindowSize(_window, &w, &h);
 	resolution = glm::ivec2(w, h);
+
+	if (resolution.x > resolution.y)
+		aspectRatio = float(resolution.x) / float(resolution.y);
+	else
+		aspectRatio = float(resolution.y) / float(resolution.x);
+	
+	position = _position;
 }
 
 Camera::~Camera()
@@ -19,16 +25,21 @@ Camera::~Camera()
 
 Ray Camera::createRay(int _x, int _y)
 {
-	// i ranges from -1 (at _x = 0) to 1 (at _x = resolution.x)
-	// i ranges from -_x/_y (at _x = 0)
-	float i = 2 * float(_x) / resolution.x - 1.0f;
+	float i = NULL;
+	float j = NULL;
 
-	// j ranges from -1 (at _y = 0) to 1 (at _y = resolution.y)
-	float j = 2 * float(_y) / resolution.y - 1.0f;
+	if (resolution.x > resolution.y)
+	{
+		i = 2 * aspectRatio * float(_x) / resolution.x - aspectRatio;
+		j = 2 * float(_y) / resolution.y - 1.0f;
+	}
+	else
+	{
+		i = 2 * float(_x) / resolution.x - 1.0f;
+		j = 2 * aspectRatio * float(_y) / resolution.y - aspectRatio;
+	}
 
-	Ray ray(position, glm::vec3(i, j, 1.0f));
-
-	return ray;
+	return Ray(position, glm::vec3(i, j, 1.0f));
 }
 
 void Camera::setPixelColour(int _x, int _y, glm::ivec3 _colour)
