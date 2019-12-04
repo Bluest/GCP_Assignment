@@ -2,6 +2,12 @@
 
 class Sphere;
 
+struct Intersection
+{
+	float distance;
+	glm::vec3 position;
+};
+
 class Ray
 {
 private:
@@ -11,5 +17,5 @@ private:
 public:
 	Ray(glm::vec3 _origin, glm::vec3 _direction);
 
-	bool hitSphere(Sphere _sphere);
+	Intersection hitSphere(Sphere _sphere);
 };
