@@ -1,16 +1,16 @@
 #include <list>
+#include <memory>
 
 #include <glm/glm.hpp>
 
-#include "Sphere.h"
-
+class Object;
 class Ray;
 
 class Scene
 {
 private:
 	glm::ivec3 backgroundColour;
-	std::list<Sphere> spheres;
+	std::list<std::shared_ptr<Object>> objects;
 
 public:
 	Scene(glm::ivec3 _backgroundColour);

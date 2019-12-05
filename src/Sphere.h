@@ -1,11 +1,8 @@
-#ifndef SPHERE_H
-#define SPHERE_H
-
 #include <glm/glm.hpp>
 
 #include "Object.h"
 
-class Sphere
+class Sphere : public Object
 {
 private:
 	glm::vec3 centre;
@@ -17,5 +14,3 @@ public:
 	Intersection rayHit(Ray _ray);
 	glm::ivec3 returnColour(glm::vec3 _point);
 };
-
-#endif

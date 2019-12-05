@@ -38,9 +38,8 @@ void App::run()
 {
 	Scene scene(glm::ivec3(0, 0, 0));
 	scene.addSphere(glm::vec3(0.0f, 0.0f, -1.0f), 0.5f);
-	scene.addSphere(glm::vec3(0.5f, 0.1f, -0.75f), 0.2f);
-	scene.addSphere(glm::vec3(0.5f, -0.1f, -0.75f), 0.2f);
-	scene.addSphere(glm::vec3(-0.2f, -0.1f, -0.5f), 0.1f);
+	scene.addSphere(glm::vec3(1.0f, 0.0f, -1.5f), 0.25f);
+	scene.addSphere(glm::vec3(0.3f, -0.1f, -0.5f), 0.1f);
 
 	Camera camera(window, glm::vec3(0.0f, 0.0f, 0.0f));
 	camera.draw(scene);

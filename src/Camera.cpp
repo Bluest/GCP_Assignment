@@ -25,8 +25,7 @@ Camera::~Camera()
 
 Ray Camera::createRay(int _x, int _y)
 {
-	float i = NULL;
-	float j = NULL;
+	float i, j;
 
 	if (resolution.x > resolution.y)
 	{

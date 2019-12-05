@@ -16,6 +16,7 @@ class Object
 {
 public:
 	virtual Intersection rayHit(Ray _ray) = 0;
+	virtual glm::ivec3 returnColour(glm::vec3 _point) = 0;
 };
 
 #endif
