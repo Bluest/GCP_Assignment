@@ -9,6 +9,7 @@ App::App(int _winW, int _winH)
 	window = SDL_CreateWindow("GCP Assignment",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		_winW, _winH, SDL_WINDOW_SHOWN);
+
 	event = { NULL };
 }
 
@@ -37,12 +38,13 @@ void App::processInput()
 void App::run()
 {
 	Scene scene(glm::ivec3(0, 0, 0));
-	scene.addSphere(glm::vec3(0.0f, 0.0f, -1.0f), 0.5f);
-	scene.addSphere(glm::vec3(1.0f, 0.0f, -1.5f), 0.25f);
-	scene.addSphere(glm::vec3(0.3f, -0.1f, -0.5f), 0.1f);
+	scene.addSphere(glm::vec3(0.0f, 0.0f, -1.0f), 0.5f, glm::ivec3(255, 255, 255));
+	scene.addSphere(glm::vec3(-0.7f, 0.7f, -1.0f), 0.1f, glm::ivec3(255, 0, 0));
+	scene.addSphere(glm::vec3(1.0f, 0.0f, -1.5f), 0.25f, glm::ivec3(0, 255, 0));
+	scene.addSphere(glm::vec3(0.3f, -0.1f, -0.5f), 0.1f, glm::ivec3(0, 0, 255));
 
 	Camera camera(window, glm::vec3(0.0f, 0.0f, 0.0f));
-	camera.draw(scene);
+	camera.draw(scene, 1);
 
 	processInput();
 }

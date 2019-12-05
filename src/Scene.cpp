@@ -8,14 +8,14 @@ Scene::Scene(glm::ivec3 _backgroundColour)
 	backgroundColour = _backgroundColour;
 }
 
-void Scene::addSphere(glm::vec3 _centre, float _radius)
+void Scene::addSphere(glm::vec3 _centre, float _radius, glm::ivec3 _colour)
 {
-	objects.emplace_back(std::make_shared<Sphere>(_centre, _radius));
+	objects.emplace_back(std::make_shared<Sphere>(_centre, _radius, _colour));
 }
 
 glm::ivec3 Scene::traceRay(Ray _ray)
 {
-	Intersection closest = { false };
+	Intersection closest = { false, 0.0f };
 	glm::ivec3 colour = backgroundColour;
 
 	for (auto it = objects.begin(); it != objects.end(); it++)
@@ -24,12 +24,7 @@ glm::ivec3 Scene::traceRay(Ray _ray)
 
 		if (intersection.hit)
 		{
-			if (!closest.hit)
-			{
-				closest = intersection;
-				colour = (*it)->returnColour(closest.point);
-			}
-			else if (intersection.distance < closest.distance)
+			if (intersection.distance < closest.distance || !closest.hit)
 			{
 				closest = intersection;
 				colour = (*it)->returnColour(closest.point);

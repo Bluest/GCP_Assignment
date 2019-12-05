@@ -12,12 +12,17 @@ private:
 	float aspectRatio;
 	glm::vec3 position;
 
-	Ray createRay(int _x, int _y);
+	Ray createRay(float _x, float _y);
 	void setPixelColour(int _x, int _y, glm::ivec3 _colour);
 
 public:
 	Camera(SDL_Window* _window, glm::vec3 _position);
 	~Camera();
 
-	void draw(Scene _scene);
+	/**
+	 * _samplesPerPixel should be a square number, otherwise
+	 * the largest square number below _samplesPerPixel
+	 * will be used
+	 */
+	void draw(Scene _scene, int _samplesPerPixel);
 };

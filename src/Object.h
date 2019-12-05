@@ -8,8 +8,8 @@ class Ray;
 struct Intersection
 {
 	bool hit;
-	glm::vec3 point;
 	float distance;
+	glm::vec3 point;
 };
 
 class Object
