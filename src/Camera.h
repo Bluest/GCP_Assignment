@@ -10,19 +10,17 @@ private:
 	SDL_Renderer* renderer;
 	glm::ivec2 resolution;
 	float aspectRatio;
+	int antialiasingSamples;
+	int numberOfThreads;
 	glm::vec3 position;
 
 	Ray createRay(float _x, float _y);
 	void setPixelColour(int _x, int _y, glm::ivec3 _colour);
 
 public:
-	Camera(SDL_Window* _window, glm::vec3 _position);
+	Camera(SDL_Window* _window, int _resolutionScale, int _antialiasingLevel, int _numberOfThreads, glm::vec3 _position);
 	~Camera();
 
-	/**
-	 * _samplesPerPixel should be a square number, otherwise
-	 * the largest square number below _samplesPerPixel
-	 * will be used
-	 */
-	void draw(Scene _scene, int _samplesPerPixel);
+	void drawSegment(Scene _scene, int _startY, int _endY);
+	void draw(Scene _scene);
 };
