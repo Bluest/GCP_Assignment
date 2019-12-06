@@ -87,27 +87,29 @@ Ray Camera::createRay(float _x, float _y)
 
 void Camera::setPixelColour(int _x, int _y, glm::ivec3 _colour)
 {
+	mutex.lock();
 	SDL_SetRenderDrawColor(renderer, _colour.r, _colour.g, _colour.b, 255);
 	SDL_RenderDrawPoint(renderer, _x, _y);
+	mutex.unlock();
 }
 
 void Camera::draw(Scene _scene)
 {
-	int segmentSize = resolution.y / numberOfThreads;
+	/*int segmentSize = resolution.y / numberOfThreads;
 
-	//std::list<std::thread> threads;
+	std::list<std::thread> threads;
 
 	for (int i = 0; i < numberOfThreads; i++)
 	{
-		//std::thread thread(drawSegment, _scene, segmentSize * i, segmentSize * (i + 1));
+		threads.emplace_back(std::thread(&Camera::drawSegment, this, _scene, i * segmentSize, (i + 1) * segmentSize));
 	}
 
-	drawSegment(_scene, 0, segmentSize);
-	drawSegment(_scene, segmentSize * 2, segmentSize * 3);
-	drawSegment(_scene, segmentSize * 4, segmentSize * 5);
-	drawSegment(_scene, segmentSize * 6, segmentSize * 7);
-	drawSegment(_scene, segmentSize * 8, segmentSize * 9);
-	drawSegment(_scene, segmentSize * 10, segmentSize * 11);
+	for (auto it = threads.begin(); it != threads.end(); it++)
+	{
+		it->join();
+	}*/
+
+	drawSegment(_scene, 0, 480);
 
 	SDL_RenderPresent(renderer);
 }

@@ -1,3 +1,5 @@
+#include <mutex>
+
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
 
@@ -12,6 +14,7 @@ private:
 	float aspectRatio;
 	int antialiasingSamples;
 	int numberOfThreads;
+	std::mutex mutex;
 	glm::vec3 position;
 
 	Ray createRay(float _x, float _y);
