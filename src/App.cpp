@@ -21,20 +21,18 @@ App::~App()
 	SDL_Quit();
 }
 
-void App::processInput()
+bool App::processInput()
 {
-	bool quit = false;
-	while (!quit)
+	while (SDL_PollEvent(&event))
 	{
-		if (SDL_WaitEvent(&event))
+		switch (event.type)
 		{
-			switch (event.type)
-			{
-			case SDL_KEYDOWN: if (event.key.keysym.sym == SDLK_ESCAPE) quit = true; break;
-			case SDL_QUIT: quit = true;
-			}
+		case SDL_KEYDOWN: if (event.key.keysym.sym == SDLK_ESCAPE) return false; break;
+		case SDL_QUIT: return false;
 		}
 	}
+
+	return true;
 }
 
 void App::run()
@@ -45,8 +43,12 @@ void App::run()
 	scene.addSphere(glm::vec3(1.0f, 0.0f, -1.5f), 0.25f, glm::ivec3(0, 255, 0));
 	scene.addSphere(glm::vec3(0.3f, -0.1f, -0.5f), 0.1f, glm::ivec3(0, 0, 255));
 
-	Camera camera(window, 1, 1, std::thread::hardware_concurrency(), glm::vec3(0.0f, 0.0f, 0.0f));
+	Camera camera(window, 1, 100, std::thread::hardware_concurrency(), glm::vec3(0.0f, 0.0f, 0.0f));
+
 	camera.draw(scene);
 
-	processInput();
+	while (processInput())
+	{
+
+	}
 }

@@ -14,6 +14,8 @@ Camera::Camera(SDL_Window* _window, int _resolutionScale, int _antialiasingLevel
 	resolution = glm::ivec2(w / _resolutionScale, h / _resolutionScale);
 	SDL_RenderSetLogicalSize(renderer, resolution.x, resolution.y);
 
+	screen.resize(resolution.y, std::vector<glm::ivec3>(resolution.x));
+
 	if (resolution.x > resolution.y)
 		aspectRatio = float(resolution.x) / float(resolution.y);
 	else
@@ -62,7 +64,8 @@ void Camera::drawSegment(Scene _scene, int _startY, int _endY)
 			}
 
 			averageColour /= antialiasingSamples * antialiasingSamples;
-			setPixelColour(x, resolution.y - y - 1, averageColour);
+			screen.at(resolution.y - y - 1).at(x) = averageColour;
+			//setPixelColour(x, resolution.y - y - 1, averageColour);
 		}
 	}
 }
@@ -87,29 +90,47 @@ Ray Camera::createRay(float _x, float _y)
 
 void Camera::setPixelColour(int _x, int _y, glm::ivec3 _colour)
 {
-	mutex.lock();
+	//mutex.lock();
 	SDL_SetRenderDrawColor(renderer, _colour.r, _colour.g, _colour.b, 255);
 	SDL_RenderDrawPoint(renderer, _x, _y);
-	mutex.unlock();
+	//mutex.unlock();
 }
 
 void Camera::draw(Scene _scene)
 {
-	/*int segmentSize = resolution.y / numberOfThreads;
-
-	std::list<std::thread> threads;
-
-	for (int i = 0; i < numberOfThreads; i++)
+	if (numberOfThreads > 1)
 	{
-		threads.emplace_back(std::thread(&Camera::drawSegment, this, _scene, i * segmentSize, (i + 1) * segmentSize));
+		int segmentSize = resolution.y / numberOfThreads;
+
+		std::list<std::thread> threads;
+
+		for (int i = 0; i < numberOfThreads; i++)
+		{
+			threads.emplace_back(std::thread(&Camera::drawSegment, this, _scene, i * segmentSize, (i + 1) * segmentSize));
+		}
+
+		// Ask Leigh if I'm launching and joining these threads correctly
+		// Is hardware_concurrency() the correct amount of maximum threads?
+		for (auto it = threads.begin(); it != threads.end(); it++)
+		{
+			it->join();
+		}
+	}
+	else drawSegment(_scene, 0, resolution.y);
+
+	for (size_t y = 0; y < screen.size(); y++)
+	{
+		for (size_t x = 0; x < screen.at(y).size(); x++)
+		{
+			setPixelColour(x, y, screen.at(y).at(x));
+		}
 	}
 
-	for (auto it = threads.begin(); it != threads.end(); it++)
-	{
-		it->join();
-	}*/
-
-	drawSegment(_scene, 0, 480);
-
 	SDL_RenderPresent(renderer);
+	printf("Time taken: %ims\n", SDL_GetTicks());
+}
+
+void Camera::move(glm::vec3 _distance)
+{
+	position += _distance;
 }

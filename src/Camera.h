@@ -1,4 +1,5 @@
-#include <mutex>
+//#include <mutex>
+#include <vector>
 
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
@@ -11,10 +12,11 @@ class Camera
 private:
 	SDL_Renderer* renderer;
 	glm::ivec2 resolution;
+	std::vector<std::vector<glm::ivec3>> screen;
 	float aspectRatio;
 	int antialiasingSamples;
 	int numberOfThreads;
-	std::mutex mutex;
+	//std::mutex mutex;
 	glm::vec3 position;
 
 	Ray createRay(float _x, float _y);
@@ -26,4 +28,5 @@ public:
 
 	void drawSegment(Scene _scene, int _startY, int _endY);
 	void draw(Scene _scene);
+	void move(glm::vec3 _newPosition);
 };
