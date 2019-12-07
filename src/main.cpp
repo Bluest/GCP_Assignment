@@ -2,7 +2,7 @@
 
 int main()
 {
-	App app(1600, 800);
+	App app(640, 480);
 	app.run();
 
 	return 0;

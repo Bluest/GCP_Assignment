@@ -1,6 +1,3 @@
-#include <list>
-#include <thread>
-
 #include "Camera.h"
 #include "Scene.h"
 #include "Ray.h"
@@ -64,8 +61,7 @@ void Camera::drawSegment(Scene _scene, int _startY, int _endY)
 			}
 
 			averageColour /= antialiasingSamples * antialiasingSamples;
-			screen.at(resolution.y - y - 1).at(x) = averageColour;
-			//setPixelColour(x, resolution.y - y - 1, averageColour);
+			screen[resolution.y - y - 1][x] = averageColour;
 		}
 	}
 }
@@ -88,12 +84,19 @@ Ray Camera::createRay(float _x, float _y)
 	return Ray(position, glm::vec3(i, j, -1.0f));
 }
 
-void Camera::setPixelColour(int _x, int _y, glm::ivec3 _colour)
+void Camera::drawScreen()
 {
-	//mutex.lock();
-	SDL_SetRenderDrawColor(renderer, _colour.r, _colour.g, _colour.b, 255);
-	SDL_RenderDrawPoint(renderer, _x, _y);
-	//mutex.unlock();
+	for (size_t y = 0; y < screen.size(); y++)
+	{
+		for (size_t x = 0; x < screen[y].size(); x++)
+		{
+			glm::ivec3 pixel = screen[y][x];
+			SDL_SetRenderDrawColor(renderer, pixel.r, pixel.g, pixel.b, 255);
+			SDL_RenderDrawPoint(renderer, x, y);
+		}
+	}
+
+	SDL_RenderPresent(renderer);
 }
 
 void Camera::draw(Scene _scene)
@@ -118,15 +121,7 @@ void Camera::draw(Scene _scene)
 	}
 	else drawSegment(_scene, 0, resolution.y);
 
-	for (size_t y = 0; y < screen.size(); y++)
-	{
-		for (size_t x = 0; x < screen.at(y).size(); x++)
-		{
-			setPixelColour(x, y, screen.at(y).at(x));
-		}
-	}
-
-	SDL_RenderPresent(renderer);
+	drawScreen();
 	printf("Time taken: %ims\n", SDL_GetTicks());
 }
 

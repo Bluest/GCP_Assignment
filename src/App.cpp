@@ -43,7 +43,7 @@ void App::run()
 	scene.addSphere(glm::vec3(1.0f, 0.0f, -1.5f), 0.25f, glm::ivec3(0, 255, 0));
 	scene.addSphere(glm::vec3(0.3f, -0.1f, -0.5f), 0.1f, glm::ivec3(0, 0, 255));
 
-	Camera camera(window, 1, 100, std::thread::hardware_concurrency(), glm::vec3(0.0f, 0.0f, 0.0f));
+	Camera camera(window, 1, 1, std::thread::hardware_concurrency(), glm::vec3(0.0f, 0.0f, 0.0f));
 
 	camera.draw(scene);
 
