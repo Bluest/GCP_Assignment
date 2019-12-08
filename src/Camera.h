@@ -1,5 +1,4 @@
 #include <vector>
-#include <list>
 #include <thread>
 
 #include <SDL2/SDL.h>
@@ -8,23 +7,29 @@
 class Ray;
 class Scene;
 
+struct CameraSettings
+{
+	glm::vec3 position;
+	int resolutionScale;
+	int antialiasingLevel;
+	int numberOfThreads;
+};
+
 class Camera
 {
 private:
+	CameraSettings settings;
 	SDL_Renderer* renderer;
 	glm::ivec2 resolution;
 	std::vector<std::vector<glm::ivec3>> screen;
 	float aspectRatio;
-	int antialiasingSamples;
-	int numberOfThreads;
-	glm::vec3 position;
 
 	Ray createRay(float _x, float _y);
 	void drawSegment(Scene _scene, int _startY, int _endY);
 	void drawScreen();
 
 public:
-	Camera(SDL_Window* _window, int _resolutionScale, int _antialiasingLevel, int _numberOfThreads, glm::vec3 _position);
+	Camera(SDL_Window* _window, CameraSettings _settings);
 	~Camera();
 
 	void draw(Scene _scene);
