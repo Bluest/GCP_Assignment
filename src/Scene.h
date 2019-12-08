@@ -1,4 +1,4 @@
-#include <list>
+#include <vector>
 #include <memory>
 
 #include <glm/glm.hpp>
@@ -10,11 +10,11 @@ class Scene
 {
 private:
 	glm::ivec3 backgroundColour;
-	std::list<std::shared_ptr<Object>> objects;
+	std::vector<std::shared_ptr<Object>> objects;
 
 public:
 	Scene(glm::ivec3 _backgroundColour);
 
-	void addSphere(glm::vec3 _centre, float _radius, glm::ivec3 _colour);
+	void addSphere(glm::ivec3 _colour, glm::vec3 _centre, float _radius);
 	glm::ivec3 traceRay(Ray _ray);
 };

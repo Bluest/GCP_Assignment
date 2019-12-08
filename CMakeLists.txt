@@ -16,6 +16,7 @@ add_executable(GCP_Assignment
 	src/Camera.h
 	src/Camera.cpp
 	src/Object.h
+	src/Object.cpp
 	src/Sphere.h
 	src/Sphere.cpp
 	src/Scene.h

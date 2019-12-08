@@ -9,10 +9,10 @@ class Scene;
 
 struct CameraSettings
 {
-	glm::vec3 position;
-	int resolutionScale;
-	int antialiasingLevel;
-	int numberOfThreads;
+	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
+	int resolutionScale = 1;
+	int antialiasingLevel = 1;
+	unsigned int numberOfThreads = 1;
 };
 
 class Camera

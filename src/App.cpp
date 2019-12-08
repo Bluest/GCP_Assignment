@@ -37,13 +37,13 @@ bool App::processInput()
 
 void App::run()
 {
-	Scene scene(glm::ivec3(0, 0, 0));
-	scene.addSphere(glm::vec3(0.0f, 0.0f, -1.0f), 0.5f, glm::ivec3(255, 255, 255));
-	scene.addSphere(glm::vec3(-0.7f, 0.7f, -1.0f), 0.1f, glm::ivec3(255, 0, 0));
-	scene.addSphere(glm::vec3(1.0f, 0.0f, -1.5f), 0.25f, glm::ivec3(0, 255, 0));
-	scene.addSphere(glm::vec3(0.3f, -0.1f, -0.5f), 0.1f, glm::ivec3(0, 0, 255));
+	Scene scene(glm::ivec3(255, 255, 255));
+	scene.addSphere(glm::ivec3(128, 128, 128), glm::vec3(0.0f, 0.0f, -1.0f), 0.5f);
+	scene.addSphere(glm::ivec3(255, 0, 0), glm::vec3(-0.7f, 0.7f, -1.0f), 0.1f);
+	scene.addSphere(glm::ivec3(0, 0, 0), glm::vec3(1.0f, 0.0f, -1.5f), 0.25f);
+	scene.addSphere(glm::ivec3(0, 0, 255), glm::vec3(0.3f, -0.1f, -0.5f), 0.1f);
 
-	CameraSettings cameraSettings = { glm::vec3(0.0f, 0.0f, 0.0f), 1, 1, std::thread::hardware_concurrency() };
+	CameraSettings cameraSettings = { glm::vec3(0.0f, 0.0f, 0.0f), 1, 10, std::thread::hardware_concurrency() };
 	Camera camera(window, cameraSettings);
 	camera.draw(scene);
 

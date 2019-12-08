@@ -102,7 +102,7 @@ void Camera::draw(Scene _scene)
 
 		std::list<std::thread> threads;
 
-		for (int i = 0; i < settings.numberOfThreads; i++)
+		for (unsigned int i = 0; i < settings.numberOfThreads; i++)
 		{
 			threads.emplace_back(std::thread(&Camera::drawSegment, this, _scene, i * segmentSize, (i + 1) * segmentSize));
 		}

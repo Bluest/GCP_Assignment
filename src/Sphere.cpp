@@ -1,15 +1,17 @@
 #include "Sphere.h"
 #include "Ray.h"
+#include "Scene.h"
 
-Sphere::Sphere(glm::vec3 _centre, float _radius, glm::ivec3 _colour)
+Sphere::Sphere(glm::ivec3 _colour, glm::vec3 _centre, float _radius)
 {
+	colour = _colour;
 	centre = _centre;
 	radius = _radius;
-	colour = _colour;
 }
 
 Intersection Sphere::rayHit(Ray _ray)
 {
+	// Distance along the ray to the point closest to the sphere's centre
 	float distanceToClosestPoint = _ray.getDistanceTo(centre);
 
 	if (distanceToClosestPoint < 0.0f)
@@ -22,12 +24,17 @@ Intersection Sphere::rayHit(Ray _ray)
 
 	float distanceToIntersection = distanceToClosestPoint - sqrt(radius * radius - distanceFromCentre * distanceFromCentre);
 
-	return { true, distanceToIntersection, _ray.getPointAt(distanceToIntersection) };
+	return { true, distanceToIntersection };
 }
 
-glm::ivec3 Sphere::returnColour(glm::vec3 _point)
+glm::ivec3 Sphere::returnColour(Scene* _scene, Ray _ray, Intersection _intersection)
 {
-	glm::vec3 normal = glm::normalize(_point - centre);
+	glm::vec3 intersectionPoint = _ray.getPointAt(_intersection.distance);
+	glm::vec3 normal = glm::normalize(intersectionPoint - centre);
 
-	return colour / 2 + glm::ivec3(63 * (normal.x + 1.0f), 63 * (normal.y + 1.0f), 63 * (normal.z + 1.0f));
+	glm::vec3 direction(intersectionPoint + normal + diffuse());
+
+	return colour / 2 + _scene->traceRay(Ray(intersectionPoint, direction)) / 2;
+
+	//return colour / 2 + glm::ivec3(63 * (normal.x + 1.0f), 63 * (normal.y + 1.0f), 63 * (normal.z + 1.0f));
 }
