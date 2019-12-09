@@ -1,6 +1,8 @@
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
 
+struct CameraSettings;
+
 class App
 {
 private:
@@ -13,5 +15,5 @@ public:
 	App(int _winW, int _winH);
 	~App();
 
-	void run();
+	void run(CameraSettings _cameraSettings);
 };

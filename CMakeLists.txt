@@ -23,6 +23,8 @@ add_executable(GCP_Assignment
 	src/Scene.cpp
 	src/App.h
 	src/App.cpp
+	src/ConsoleInterface.h
+	src/ConsoleInterface.cpp
 	src/main.cpp
 )
 

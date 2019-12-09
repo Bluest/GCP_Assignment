@@ -35,7 +35,7 @@ bool App::processInput()
 	return true;
 }
 
-void App::run()
+void App::run(CameraSettings _cameraSettings)
 {
 	Scene scene(glm::ivec3(255, 255, 255));
 	scene.addSphere(glm::ivec3(128, 128, 128), glm::vec3(0.0f, 0.0f, -1.0f), 0.5f);
@@ -43,7 +43,7 @@ void App::run()
 	scene.addSphere(glm::ivec3(0, 0, 0), glm::vec3(1.0f, 0.0f, -1.5f), 0.25f);
 	scene.addSphere(glm::ivec3(0, 0, 255), glm::vec3(0.3f, -0.1f, -0.5f), 0.1f);
 
-	CameraSettings cameraSettings = { glm::vec3(0.0f, 0.0f, 0.0f), 1, 10, std::thread::hardware_concurrency() };
+	CameraSettings cameraSettings = { glm::vec3(0.0f, 0.0f, 0.0f), 1, 1, std::thread::hardware_concurrency() };
 	Camera camera(window, cameraSettings);
 	camera.draw(scene);
 
