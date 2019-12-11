@@ -8,7 +8,7 @@ ConsoleInterface::ConsoleInterface()
 {
 	// Default settings
 	winW = 640, winH = 480;
-	cameraSettings = { glm::vec3(0.0f, 0.0f, 0.0f), 1, 1, std::thread::hardware_concurrency() };
+	cameraSettings = { glm::vec3(0.0f, 0.0f, 0.0f), 1, 10, std::thread::hardware_concurrency() };
 }
 
 void ConsoleInterface::run()

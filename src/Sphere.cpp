@@ -34,7 +34,12 @@ glm::ivec3 Sphere::returnColour(Scene* _scene, Ray _ray, Intersection _intersect
 
 	glm::vec3 direction(intersectionPoint + normal + diffuse());
 
-	return colour / 2 + _scene->traceRay(Ray(intersectionPoint, direction)) / 2;
+	glm::vec3 returnColour = colour / 2 + _scene->traceRay(Ray(intersectionPoint, direction)) / 2;
+	float specular = (glm::dot(normal, glm::vec3(0.0f, 1.0f, 0.0f)) + 1.0f) / 2;
+
+	//return returnColour;
+
+	return glm::vec3(specular * returnColour.x, specular * returnColour.y, specular * returnColour.z);
 
 	//return colour / 2 + glm::ivec3(63 * (normal.x + 1.0f), 63 * (normal.y + 1.0f), 63 * (normal.z + 1.0f));
 }

@@ -75,6 +75,20 @@ void Camera::drawSegment(Scene _scene, int _startY, int _endY)
 	}
 }
 
+/*
+void Camera::threadFunc()
+{
+	while (!quit)
+	{
+		if (active)
+		{
+			drawSegment()
+			active = false;
+		}
+	}
+}
+*/
+
 void Camera::drawScreen()
 {
 	for (size_t y = 0; y < screen.size(); y++)
@@ -107,9 +121,6 @@ void Camera::draw(Scene _scene)
 			threads.emplace_back(std::thread(&Camera::drawSegment, this, _scene, i * segmentSize, (i + 1) * segmentSize));
 		}
 
-		// Ask Leigh if I'm launching and joining these threads correctly
-		// And actually just general feedback with how everything's structured, or what I should add
-		// Is hardware_concurrency() the correct amount of maximum threads?
 		for (auto it = threads.begin(); it != threads.end(); it++)
 		{
 			it->join();
