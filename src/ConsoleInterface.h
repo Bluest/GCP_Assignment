@@ -8,6 +8,10 @@ private:
 	std::string input;
 	int winW, winH;
 	CameraSettings cameraSettings;
+	bool quit;
+
+	void printMenu();
+	void processInput();
 
 public:
 	ConsoleInterface();

@@ -18,11 +18,13 @@ Camera::Camera(SDL_Window* _window, CameraSettings _settings)
 	screen.resize(resolution.y, std::vector<glm::ivec3>(resolution.x));
 
 	if (resolution.x > resolution.y)
+	{
 		aspectRatio = float(resolution.x) / float(resolution.y);
+	}
 	else
+	{
 		aspectRatio = float(resolution.y) / float(resolution.x);
-
-
+	}
 }
 
 Camera::~Camera()
