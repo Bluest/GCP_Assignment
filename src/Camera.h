@@ -25,13 +25,13 @@ private:
 	float aspectRatio;
 
 	Ray createRay(float _x, float _y);
-	void drawSegment(Scene _scene, int _startY, int _endY);
+	void drawSegment(Scene& _scene, int _startY, int _endY);
 	void drawScreen();
 
 public:
-	Camera(SDL_Window* _window, CameraSettings _settings);
+	Camera(SDL_Window* _window, CameraSettings& _settings);
 	~Camera();
 
-	void draw(Scene _scene);
-	void move(glm::vec3 _distance);
+	void draw(Scene& _scene);
+	void move(glm::vec3& _distance);
 };

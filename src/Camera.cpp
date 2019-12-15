@@ -4,7 +4,7 @@
 #include "Scene.h"
 #include "Ray.h"
 
-Camera::Camera(SDL_Window* _window, CameraSettings _settings)
+Camera::Camera(SDL_Window* _window, CameraSettings& _settings)
 {
 	settings = _settings;
 
@@ -50,7 +50,7 @@ Ray Camera::createRay(float _x, float _y)
 	return Ray(settings.position, glm::vec3(i, j, -1.0f));
 }
 
-void Camera::drawSegment(Scene _scene, int _startY, int _endY)
+void Camera::drawSegment(Scene& _scene, int _startY, int _endY)
 {
 	for (int y = _startY; y < _endY; y++)
 	{
@@ -106,7 +106,7 @@ void Camera::drawScreen()
 	SDL_RenderPresent(renderer);
 }
 
-void Camera::draw(Scene _scene)
+void Camera::draw(Scene& _scene)
 {
 	if (settings.numberOfThreads <= 1)
 	{
@@ -133,7 +133,7 @@ void Camera::draw(Scene _scene)
 	printf("Time taken: %ims\n", SDL_GetTicks());
 }
 
-void Camera::move(glm::vec3 _distance)
+void Camera::move(glm::vec3& _distance)
 {
 	settings.position += _distance;
 }

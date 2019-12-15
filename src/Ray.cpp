@@ -1,12 +1,12 @@
 #include "Ray.h"
 
-Ray::Ray(glm::vec3 _origin, glm::vec3 _direction)
+Ray::Ray(glm::vec3& _origin, glm::vec3& _direction)
 {
 	origin = _origin;
 	direction = glm::normalize(_direction);
 }
 
-float Ray::getDistanceTo(glm::vec3 _point)
+float Ray::getDistanceTo(glm::vec3& _point)
 {
 	return glm::dot(_point - origin, direction);
 }

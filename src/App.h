@@ -15,5 +15,5 @@ public:
 	App(int _winW, int _winH);
 	~App();
 
-	void run(CameraSettings _cameraSettings);
+	void run(CameraSettings& _cameraSettings);
 };

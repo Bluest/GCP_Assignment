@@ -35,7 +35,7 @@ bool App::processInput()
 	return true;
 }
 
-void App::run(CameraSettings _cameraSettings)
+void App::run(CameraSettings& _cameraSettings)
 {
 	Scene scene(glm::ivec3(255, 255, 255));
 	scene.addSphere(glm::ivec3(128, 128, 128), glm::vec3(0.0f, 0.0f, -1.0f), 0.5f);
