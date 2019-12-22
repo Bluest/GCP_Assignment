@@ -34,6 +34,25 @@ App::~App()
 	SDL_Quit();
 }
 
+void App::run(CameraSettings& _cameraSettings)
+{
+	// Initialise and populate the scene
+	Scene scene(glm::ivec3(255, 255, 255), glm::vec3(-1.0f, 1.0f, 0.0f));
+	scene.addSphere(glm::ivec3(255, 255, 255), glm::vec3(0.0f, 0.0f, -1.0f), 0.5f);
+	scene.addSphere(glm::ivec3(255, 0, 0), glm::vec3(-0.3f, 0.3f, -0.5f), 0.05f);
+	scene.addSphere(glm::ivec3(0, 0, 255), glm::vec3(0.3f, -0.1f, -0.5f), 0.1f);
+	scene.addSphere(glm::ivec3(0, 0, 0), glm::vec3(1.0f, 0.0f, -1.5f), 0.25f);
+
+	// Initialise camera with the chosen settings and display the scene
+	CameraSettings cameraSettings = _cameraSettings;
+	Camera camera(window, cameraSettings);
+	camera.useOrthogonal(false);
+	camera.draw(scene);
+
+	// Wait for the user to quit
+	processInput();
+}
+
 void App::processInput()
 {
 	// Loop here until the user presses the esc key or closes the window
@@ -50,22 +69,4 @@ void App::processInput()
 			}
 		}
 	}
-}
-
-void App::run(CameraSettings& _cameraSettings)
-{
-	// Initialise and populate the scene
-	Scene scene(glm::ivec3(255, 255, 255), glm::vec3(-1.0f, 1.0f, 0.0f));
-	scene.addSphere(glm::ivec3(255, 255, 255), glm::vec3(0.0f, 0.0f, -1.0f), 0.5f);
-	scene.addSphere(glm::ivec3(255, 0, 0), glm::vec3(-0.3f, 0.3f, -0.5f), 0.05f);
-	scene.addSphere(glm::ivec3(0, 0, 255), glm::vec3(0.3f, -0.1f, -0.5f), 0.1f);
-	scene.addSphere(glm::ivec3(0, 0, 0), glm::vec3(1.0f, 0.0f, -1.5f), 0.25f);
-
-	// Initialise camera with the chosen settings and display the scene
-	CameraSettings cameraSettings = _cameraSettings;
-	Camera camera(window, cameraSettings);
-	camera.draw(scene);
-
-	// Wait for the user to quit
-	processInput();
 }

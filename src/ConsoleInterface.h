@@ -4,6 +4,11 @@
 
 class ConsoleInterface
 {
+public:
+	ConsoleInterface();
+
+	void run();
+
 private:
 	std::string input;
 	int winW, winH;
@@ -12,9 +17,4 @@ private:
 
 	void printMenu();
 	void processInput();
-
-public:
-	ConsoleInterface();
-
-	void run();
 };

@@ -15,17 +15,17 @@ struct Intersection
 
 class Object
 {
-protected:
-	glm::ivec3 colour;
-
-	glm::ivec3 getDiffuseColour(glm::vec3& _normal, Intersection& _intersection, Scene* _scene);
-
 public:
 	// Determines whether or not a ray hits the object, and returns information on the intersection
 	virtual Intersection rayHit(Ray& _ray) = 0;
 
 	// Returns the colour of the object at _intersection
 	virtual glm::ivec3 returnColour(Intersection& _intersection, Scene* _scene) = 0;
+
+protected:
+	glm::ivec3 colour;
+
+	glm::ivec3 getDiffuseColour(glm::vec3& _normal, Intersection& _intersection, Scene* _scene);
 };
 
 #endif

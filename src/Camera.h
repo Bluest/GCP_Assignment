@@ -1,5 +1,4 @@
 #include <vector>
-#include <thread>
 
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
@@ -17,21 +16,23 @@ struct CameraSettings
 
 class Camera
 {
+public:
+	Camera(SDL_Window* _window, CameraSettings& _settings);
+	~Camera();
+
+	void useOrthogonal(bool _value);
+	void move(glm::vec3& _distance);
+	void draw(Scene& _scene);
+
 private:
 	CameraSettings settings;
 	SDL_Renderer* renderer;
 	glm::ivec2 resolution;
 	std::vector<std::vector<glm::ivec3>> screen;
 	float aspectRatio;
-
-	Ray createRay(float _x, float _y);
+	bool orthogonalView;
+	
 	void drawSegment(Scene& _scene, int _startY, int _endY);
+	Ray createRay(float _x, float _y);
 	void drawScreen();
-
-public:
-	Camera(SDL_Window* _window, CameraSettings& _settings);
-	~Camera();
-
-	void draw(Scene& _scene);
-	void move(glm::vec3& _distance);
 };

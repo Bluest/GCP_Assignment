@@ -12,6 +12,16 @@ ConsoleInterface::ConsoleInterface()
 	quit = false;
 }
 
+void ConsoleInterface::run()
+{
+	while (!quit)
+	{
+		printMenu();
+		std::cin >> input;
+		processInput();
+	}
+}
+
 void ConsoleInterface::printMenu()
 {
 	std::cout << std::endl;
@@ -59,15 +69,5 @@ void ConsoleInterface::processInput()
 	else if (input == "6")
 	{
 		quit = true;
-	}
-}
-
-void ConsoleInterface::run()
-{
-	while (!quit)
-	{
-		printMenu();
-		std::cin >> input;
-		processInput();
 	}
 }

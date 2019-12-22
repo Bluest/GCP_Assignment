@@ -1,5 +1,6 @@
 #include <iostream>
 #include <list>
+#include <thread>
 
 #include <glm/ext.hpp>
 
@@ -36,6 +37,9 @@ Camera::Camera(SDL_Window* _window, CameraSettings& _settings)
 	{
 		aspectRatio = float(resolution.y) / float(resolution.x);
 	}
+
+	// Do not use orthogonal view by default
+	orthogonalView = false;
 }
 
 Camera::~Camera()
@@ -44,80 +48,14 @@ Camera::~Camera()
 	SDL_DestroyRenderer(renderer);
 }
 
-Ray Camera::createRay(float _x, float _y)
+void Camera::useOrthogonal(bool _value)
 {
-	float i, j;
-
-	if (resolution.x > resolution.y)
-	{
-		i = 2 * aspectRatio * _x / resolution.x - aspectRatio;
-		j = 2 * _y / resolution.y - 1.0f;
-	}
-	else
-	{
-		i = 2 * _x / resolution.x - 1.0f;
-		j = 2 * aspectRatio * _y / resolution.y - aspectRatio;
-	}
-
-	return Ray(settings.position, glm::vec3(i, j, -1.0f));
-
-	// Orthogonal view
-	/*glm::vec3 offset = glm::vec3(0.0f, 0.0f, 0.0f);
-
-	if (resolution.x > resolution.y)
-	{
-		offset.x = 2 * aspectRatio * _x / resolution.x - aspectRatio;
-		offset.y = 2 * _y / resolution.y - 1.0f;
-	}
-	else
-	{
-		offset.x = 2 * _x / resolution.x - 1.0f;
-		offset.y = 2 * aspectRatio * _y / resolution.y - aspectRatio;
-	}
-
-	return Ray(settings.position + offset, glm::vec3(0.0f, 0.0f, -1.0f));*/
+	orthogonalView = _value;
 }
 
-void Camera::drawSegment(Scene& _scene, int _startY, int _endY)
+void Camera::move(glm::vec3& _distance)
 {
-	for (int y = _startY; y < _endY; y++)
-	{
-		for (int x = 0; x < resolution.x; x++)
-		{
-			glm::ivec3 averageColour;
-
-			for (float sampleX = 0; sampleX < settings.antialiasingLevel; sampleX++)
-			{
-				float offsetX = sampleX / settings.antialiasingLevel;
-
-				for (float sampleY = 0; sampleY < settings.antialiasingLevel; sampleY++)
-				{
-					float offsetY = sampleY / settings.antialiasingLevel;
-
-					Ray ray = createRay(x + offsetX, y + offsetY);
-					averageColour += _scene.traceRay(ray);
-				}
-			}
-
-			averageColour /= settings.antialiasingLevel * settings.antialiasingLevel;
-			screen[resolution.y - y - 1][x] = averageColour;
-		}
-	}
-}
-
-void Camera::drawScreen()
-{
-	for (size_t y = 0; y < screen.size(); y++)
-	{
-		for (size_t x = 0; x < screen[y].size(); x++)
-		{
-			glm::ivec3 pixel = screen[y][x];
-			SDL_SetRenderDrawColor(renderer, pixel.r, pixel.g, pixel.b, 255);
-			SDL_RenderDrawPoint(renderer, x, y);
-		}
-	}
-
-	SDL_RenderPresent(renderer);
+	settings.position += _distance;
 }
 
 void Camera::draw(Scene& _scene)
@@ -147,7 +85,82 @@ void Camera::draw(Scene& _scene)
 	printf("Time taken: %ims\n", SDL_GetTicks());
 }
 
-void Camera::move(glm::vec3& _distance)
+void Camera::drawSegment(Scene& _scene, int _startY, int _endY)
 {
-	settings.position += _distance;
+	for (int y = _startY; y < _endY; y++)
+	{
+		for (int x = 0; x < resolution.x; x++)
+		{
+			glm::ivec3 averageColour;
+
+			for (float sampleX = 0; sampleX < settings.antialiasingLevel; sampleX++)
+			{
+				float offsetX = sampleX / settings.antialiasingLevel;
+
+				for (float sampleY = 0; sampleY < settings.antialiasingLevel; sampleY++)
+				{
+					float offsetY = sampleY / settings.antialiasingLevel;
+
+					Ray ray = createRay(x + offsetX, y + offsetY);
+					averageColour += _scene.traceRay(ray);
+				}
+			}
+
+			averageColour /= settings.antialiasingLevel * settings.antialiasingLevel;
+			screen[resolution.y - y - 1][x] = averageColour;
+		}
+	}
+}
+
+Ray Camera::createRay(float _x, float _y)
+{
+	if (!orthogonalView)
+	{
+		float i, j;
+
+		if (resolution.x > resolution.y)
+		{
+			i = 2 * aspectRatio * _x / resolution.x - aspectRatio;
+			j = 2 * _y / resolution.y - 1.0f;
+		}
+		else
+		{
+			i = 2 * _x / resolution.x - 1.0f;
+			j = 2 * aspectRatio * _y / resolution.y - aspectRatio;
+		}
+
+		return Ray(settings.position, glm::vec3(i, j, -1.0f));
+	}
+	else
+	{
+		glm::vec3 offset = glm::vec3(0.0f, 0.0f, 0.0f);
+
+		if (resolution.x > resolution.y)
+		{
+			offset.x = 2 * aspectRatio * _x / resolution.x - aspectRatio;
+			offset.y = 2 * _y / resolution.y - 1.0f;
+		}
+		else
+		{
+			offset.x = 2 * _x / resolution.x - 1.0f;
+			offset.y = 2 * aspectRatio * _y / resolution.y - aspectRatio;
+		}
+
+		return Ray(settings.position + offset, glm::vec3(0.0f, 0.0f, -1.0f));
+	}
+}
+
+void Camera::drawScreen()
+{
+	for (size_t y = 0; y < screen.size(); y++)
+	{
+		for (size_t x = 0; x < screen[y].size(); x++)
+		{
+			glm::ivec3 pixel = screen[y][x];
+			SDL_SetRenderDrawColor(renderer, pixel.r, pixel.g, pixel.b, 255);
+			SDL_RenderDrawPoint(renderer, x, y);
+		}
+	}
+
+	SDL_RenderPresent(renderer);
 }
