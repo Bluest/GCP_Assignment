@@ -1,3 +1,4 @@
+#include <iostream>
 #include <thread>
 
 #include "App.h"
@@ -6,49 +7,65 @@
 
 App::App(int _winW, int _winH)
 {
-	SDL_Init(SDL_INIT_VIDEO);
+	// Initialise SDL
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+	{
+		std::cout << "Failed to initialise SDL: " << SDL_GetError() << std::endl;
+	}
 
+	// Create window
 	window = SDL_CreateWindow("GCP Assignment",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		_winW, _winH, SDL_WINDOW_SHOWN);
 
+	if (!window)
+	{
+		std::cout << "Failed to create window: " << SDL_GetError() << std::endl;
+	}
+
+	// Initialise event union
 	event = { NULL };
 }
 
 App::~App()
 {
+	// Clean-up: Destroy window and quit SDL
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
 
-bool App::processInput()
+void App::processInput()
 {
-	while (SDL_PollEvent(&event))
+	// Loop here until the user presses the esc key or closes the window
+
+	bool quit = false;
+	while (!quit)
 	{
-		switch (event.type)
+		if (SDL_WaitEvent(&event))
 		{
-		case SDL_KEYDOWN: if (event.key.keysym.sym == SDLK_ESCAPE) return false; break;
-		case SDL_QUIT: return false;
+			switch (event.type)
+			{
+			case SDL_KEYDOWN: if (event.key.keysym.sym == SDLK_ESCAPE) quit = true; break;
+			case SDL_QUIT: quit = true; break;
+			}
 		}
 	}
-
-	return true;
 }
 
 void App::run(CameraSettings& _cameraSettings)
 {
-	Scene scene(glm::ivec3(255, 255, 255));
-	scene.addSphere(glm::ivec3(128, 128, 128), glm::vec3(0.0f, 0.0f, -1.0f), 0.5f);
-	scene.addSphere(glm::ivec3(255, 0, 0), glm::vec3(-0.7f, 0.7f, -1.0f), 0.1f);
-	scene.addSphere(glm::ivec3(0, 0, 0), glm::vec3(1.0f, 0.0f, -1.5f), 0.25f);
+	// Initialise and populate the scene
+	Scene scene(glm::ivec3(255, 255, 255), glm::vec3(-1.0f, 1.0f, 0.0f));
+	scene.addSphere(glm::ivec3(255, 255, 255), glm::vec3(0.0f, 0.0f, -1.0f), 0.5f);
+	scene.addSphere(glm::ivec3(255, 0, 0), glm::vec3(-0.3f, 0.3f, -0.5f), 0.05f);
 	scene.addSphere(glm::ivec3(0, 0, 255), glm::vec3(0.3f, -0.1f, -0.5f), 0.1f);
+	scene.addSphere(glm::ivec3(0, 0, 0), glm::vec3(1.0f, 0.0f, -1.5f), 0.25f);
 
+	// Initialise camera with the chosen settings and display the scene
 	CameraSettings cameraSettings = _cameraSettings;
 	Camera camera(window, cameraSettings);
 	camera.draw(scene);
 
-	while (processInput())
-	{
-
-	}
+	// Wait for the user to quit
+	processInput();
 }

@@ -14,32 +14,44 @@ Intersection Sphere::rayHit(Ray& _ray)
 	// Distance along the ray to the point closest to the sphere's centre
 	float distanceToClosestPoint = _ray.getDistanceTo(centre);
 
+	// If the point is behind the ray's origin, no hit
 	if (distanceToClosestPoint < 0.0f)
 		return { false };
 
+	// Calculate distance from the point to the centre of the sphere
 	float distanceFromCentre = glm::length(_ray.getPointAt(distanceToClosestPoint) - centre);
 
+	// If the distance is greater than the sphere's radius, no hit
 	if (distanceFromCentre > radius)
 		return { false };
 
+	// Otherwise, we have a hit!
+
+	// Distance along the ray to the surface of the sphere, the point of intersection
 	float distanceToIntersection = distanceToClosestPoint - sqrt(radius * radius - distanceFromCentre * distanceFromCentre);
 
-	return { true, distanceToIntersection };
+	// Return the intersection
+	return { true, distanceToIntersection, _ray.getPointAt(distanceToIntersection) };
 }
 
-glm::ivec3 Sphere::returnColour(Scene* _scene, Ray& _ray, Intersection& _intersection)
+glm::ivec3 Sphere::returnColour(Intersection& _intersection, Scene* _scene)
 {
-	glm::vec3 intersectionPoint = _ray.getPointAt(_intersection.distance);
-	glm::vec3 normal = glm::normalize(intersectionPoint - centre);
+	glm::vec3 normal = glm::normalize(_intersection.point - centre);
 
-	glm::vec3 direction(intersectionPoint + normal + diffuse());
+	glm::ivec3 diffuseColour = getDiffuseColour(normal, _intersection, _scene);
 
-	glm::vec3 returnColour = colour / 2 + _scene->traceRay(Ray(intersectionPoint, direction)) / 2;
-	float specular = (glm::dot(normal, glm::vec3(0.0f, 1.0f, 0.0f)) + 1.0f) / 2;
+	// Direction from this point to the scene's light
+	glm::vec3 lightDirection = glm::normalize(_scene->getLightPosition() - _intersection.point);
 
-	//return returnColour;
+	// The dot product of the normal and light direction, mapped to 0.0f to 1.0f
+	// This value will be 1.0f when the normal directly faces the light, and 0.0f when the normal faces directly away
+	float specular = (glm::dot(normal, lightDirection) + 1.0f) / 2;
 
-	return glm::vec3(specular * returnColour.x, specular * returnColour.y, specular * returnColour.z);
+	// If this point is in shadow, reduce the specular value by a quarter
+	if (_scene->castShadow(this, Ray(_intersection.point, lightDirection)))
+	{
+		specular *= 0.75f;
+	}
 
-	//return colour / 2 + glm::ivec3(63 * (normal.x + 1.0f), 63 * (normal.y + 1.0f), 63 * (normal.z + 1.0f));
+	return glm::ivec3(specular * diffuseColour.x, specular * diffuseColour.y, specular * diffuseColour.z);
 }

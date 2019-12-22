@@ -9,7 +9,7 @@ private:
 	SDL_Window* window;
 	SDL_Event event;
 
-	bool processInput();
+	void processInput();
 
 public:
 	App(int _winW, int _winH);

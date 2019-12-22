@@ -10,6 +10,7 @@ struct Intersection
 {
 	bool hit;
 	float distance;
+	glm::vec3 point;
 };
 
 class Object
@@ -17,11 +18,14 @@ class Object
 protected:
 	glm::ivec3 colour;
 
-	glm::vec3 diffuse();
+	glm::ivec3 getDiffuseColour(glm::vec3& _normal, Intersection& _intersection, Scene* _scene);
 
 public:
+	// Determines whether or not a ray hits the object, and returns information on the intersection
 	virtual Intersection rayHit(Ray& _ray) = 0;
-	virtual glm::ivec3 returnColour(Scene* _scene, Ray& _ray, Intersection& _intersection) = 0;
+
+	// Returns the colour of the object at _intersection
+	virtual glm::ivec3 returnColour(Intersection& _intersection, Scene* _scene) = 0;
 };
 
 #endif

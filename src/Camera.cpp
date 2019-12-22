@@ -1,4 +1,7 @@
+#include <iostream>
 #include <list>
+
+#include <glm/ext.hpp>
 
 #include "Camera.h"
 #include "Scene.h"
@@ -6,10 +9,18 @@
 
 Camera::Camera(SDL_Window* _window, CameraSettings& _settings)
 {
+	// Initialise camera settings
 	settings = _settings;
 
+	// Create renderer
 	renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
 
+	if (!renderer)
+	{
+		std::cout << "Failed to create renderer: " << SDL_GetError() << std::endl;
+	}
+
+	// Set renderer's logical size to 
 	int w, h;
 	SDL_GetWindowSize(_window, &w, &h);
 	resolution = glm::ivec2(w / settings.resolutionScale, h / settings.resolutionScale);
@@ -29,6 +40,7 @@ Camera::Camera(SDL_Window* _window, CameraSettings& _settings)
 
 Camera::~Camera()
 {
+	// Clean-up: Destroy renderer
 	SDL_DestroyRenderer(renderer);
 }
 
@@ -48,6 +60,22 @@ Ray Camera::createRay(float _x, float _y)
 	}
 
 	return Ray(settings.position, glm::vec3(i, j, -1.0f));
+
+	// Orthogonal view
+	/*glm::vec3 offset = glm::vec3(0.0f, 0.0f, 0.0f);
+
+	if (resolution.x > resolution.y)
+	{
+		offset.x = 2 * aspectRatio * _x / resolution.x - aspectRatio;
+		offset.y = 2 * _y / resolution.y - 1.0f;
+	}
+	else
+	{
+		offset.x = 2 * _x / resolution.x - 1.0f;
+		offset.y = 2 * aspectRatio * _y / resolution.y - aspectRatio;
+	}
+
+	return Ray(settings.position + offset, glm::vec3(0.0f, 0.0f, -1.0f));*/
 }
 
 void Camera::drawSegment(Scene& _scene, int _startY, int _endY)
@@ -76,20 +104,6 @@ void Camera::drawSegment(Scene& _scene, int _startY, int _endY)
 		}
 	}
 }
-
-/*
-void Camera::threadFunc()
-{
-	while (!quit)
-	{
-		if (active)
-		{
-			drawSegment()
-			active = false;
-		}
-	}
-}
-*/
 
 void Camera::drawScreen()
 {
