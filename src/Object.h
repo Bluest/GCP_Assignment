@@ -6,6 +6,7 @@
 class Ray;
 class Scene;
 
+// Struct containing information about an intersection
 struct Intersection
 {
 	bool hit;
@@ -16,7 +17,7 @@ struct Intersection
 class Object
 {
 public:
-	// Determines whether or not a ray hits the object, and returns information on the intersection
+	// Determines whether a ray hits the object, and returns information on the intersection
 	virtual Intersection rayHit(Ray& _ray) = 0;
 
 	// Returns the colour of the object at _intersection
@@ -25,6 +26,7 @@ public:
 protected:
 	glm::ivec3 colour;
 
+	// Returns the diffuse colour of the intersected point by reflecting the ray randomly off of microfacets
 	glm::ivec3 getDiffuseColour(glm::vec3& _normal, Intersection& _intersection, Scene* _scene);
 };
 

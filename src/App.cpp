@@ -55,7 +55,7 @@ void App::run(CameraSettings& _cameraSettings)
 
 void App::processInput()
 {
-	// Loop here until the user presses the esc key or closes the window
+	// Loop here until the user presses the escape key or closes the window
 
 	bool quit = false;
 	while (!quit)

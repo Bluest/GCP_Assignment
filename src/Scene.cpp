@@ -5,6 +5,7 @@
 
 Scene::Scene(glm::ivec3& _backgroundColour, glm::vec3& _lightPosition)
 {
+	// Initialise scene values with parameters
 	backgroundColour = _backgroundColour;
 	lightPosition = _lightPosition;
 }
@@ -22,20 +23,23 @@ void Scene::addSphere(glm::ivec3& _colour, glm::vec3& _centre, float _radius)
 
 glm::ivec3 Scene::traceRay(Ray& _ray)
 {
+	// Initially, there is no closest intersection and the returned colour is the background
 	Intersection closest = { false };
 	int closestIndex;
 	glm::ivec3 colour = backgroundColour;
 
+	// For each object in the scene...
 	for (size_t i = 0; i < objects.size(); i++)
 	{
+		// Check for a ray hit and store the intersection information
 		Intersection intersection = objects[i]->rayHit(_ray);
 
 		if (intersection.hit)
 		{
-			// If this intersection is closer than the previous closest, or if it's the first
+			// If this intersection is closer than the previous closest, or if it's the first intersection
 			if (intersection.distance < closest.distance || !closest.hit)
 			{
-				// Store the index of this object, as it is new closest
+				// Store the index of this object, it is new closest
 				closestIndex = i;
 				closest = intersection;
 			}
@@ -49,12 +53,13 @@ glm::ivec3 Scene::traceRay(Ray& _ray)
 	}
 
 	// Then return the final colour
+	// This will return the background colour if no objects were hit by the ray
 	return colour;
 }
 
 bool Scene::castShadow(Object* _object, Ray& _ray)
 {
-	// Check each object in the scene
+	// For each object in the scene...
 	for (auto it = objects.begin(); it != objects.end(); it++)
 	{
 		// If this object is _object, skip it

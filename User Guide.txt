@@ -1,0 +1,27 @@
+To run the program, launch the GCP_Assignment.exe executable in the Release folder, and a console window displaying 6 options should appear.
+
+[1] Start:
+Runs the ray tracer with the current settings.
+Prints the amount of milliseconds taken to draw the scene.
+Close the ray tracer window to return to the console menu.
+
+[2] Change window size:
+Modifies the ray tracer window's dimensions.
+Prompts the user to enter a new width, then a new height, before returning to the menu.
+
+[3] Change resolution scale:
+Modifies the resolution of the window.
+Prompts the user to enter an integer value, which is the multiplied size of each pixel.
+
+[4] Change anti-aliasing level:
+Modifies the amount of samples per pixel.
+Prompts the user to enter an integer value, the ray tracer will trace this many rays squared per pixel.
+(eg. An anti-aliasing level of 3 will result in 9 rays per pixel, 3 in each axis)
+
+[5] Change number of threads:
+Modifies the number of threads used to draw the scene.
+Prompts the user to enter the amount of threads that the ray tracer will utilise.
+By default, this value is set to the maximum amount of logical processors available on the device.
+
+[6] Quit:
+Quits the program and closes the window.

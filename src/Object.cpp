@@ -4,9 +4,11 @@
 
 glm::ivec3 Object::getDiffuseColour(glm::vec3& _normal, Intersection& _intersection, Scene* _scene)
 {
+	// Initialise randomDirection such that it enters the while loop
 	glm::vec3 randomDirection = glm::vec3(1.0f, 1.0f, 1.0f);
 
 	// Pick a random point within a unit sphere
+	// If the random point is outside of the sphere, try again
 	while (glm::length(randomDirection) > 1.0f)
 	{
 		// Generate random numbers between 0.0f and 1.0f
