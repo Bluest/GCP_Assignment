@@ -27,6 +27,7 @@ Camera::Camera(SDL_Window* _window, CameraSettings& _settings)
 	resolution = glm::ivec2(w / settings.resolutionScale, h / settings.resolutionScale);
 	SDL_RenderSetLogicalSize(renderer, resolution.x, resolution.y);
 
+	// Set buffer size to the resolution of the camera
 	screen.resize(resolution.y, std::vector<glm::ivec3>(resolution.x));
 
 	// Calculate aspect ratio, either horizontally or vertically (whichever is longer, such that aspectRatio >= 1)
@@ -99,6 +100,7 @@ void Camera::drawSegment(Scene& _scene, int _startY, int _endY)
 		for (int x = 0; x < resolution.x; x++)
 		{
 			// Trace multiple rays per pixel and calculate the average colour
+
 			glm::ivec3 averageColour;
 
 			for (float sampleX = 0; sampleX < settings.antialiasingLevel; sampleX++)
@@ -118,7 +120,10 @@ void Camera::drawSegment(Scene& _scene, int _startY, int _endY)
 				}
 			}
 
+			// Divide the total colour by the amount of samples taken to get the average
 			averageColour /= settings.antialiasingLevel * settings.antialiasingLevel;
+
+			// Store the pixel's colour in a buffer
 			screen[resolution.y - y - 1][x] = averageColour;
 		}
 	}
@@ -128,8 +133,13 @@ Ray Camera::createRay(float _x, float _y)
 {
 	if (!orthogonalView)
 	{
+		// If the camera isn't orthogonal...
+		// All rays start from the same position,
+		// But have different directions
 		float i, j;
 
+		// Determine aspect ratio's direction
+		// Then calculate the ray's direction based on the parameters
 		if (resolution.x > resolution.y)
 		{
 			i = 2 * aspectRatio * _x / resolution.x - aspectRatio;
@@ -141,12 +151,18 @@ Ray Camera::createRay(float _x, float _y)
 			j = 2 * aspectRatio * _y / resolution.y - aspectRatio;
 		}
 
+		// Create the ray and return it
 		return Ray(settings.position, glm::vec3(i, j, -1.0f));
 	}
 	else
 	{
+		// Otherwise, the camera is orthogonal...
+		// All rays have the same direction,
+		// But start from different positions
 		glm::vec3 offset = glm::vec3(0.0f, 0.0f, 0.0f);
 
+		// Determine aspect ratio's direction
+		// Then calculate the ray's position based on the parameters
 		if (resolution.x > resolution.y)
 		{
 			offset.x = 2 * aspectRatio * _x / resolution.x - aspectRatio;
@@ -158,21 +174,24 @@ Ray Camera::createRay(float _x, float _y)
 			offset.y = 2 * aspectRatio * _y / resolution.y - aspectRatio;
 		}
 
+		// Create the ray and return it
 		return Ray(settings.position + offset, glm::vec3(0.0f, 0.0f, -1.0f));
 	}
 }
 
 void Camera::drawScreen()
 {
+	// For each pixel in the buffer...
 	for (size_t y = 0; y < screen.size(); y++)
 	{
 		for (size_t x = 0; x < screen[y].size(); x++)
 		{
-			glm::ivec3 pixel = screen[y][x];
-			SDL_SetRenderDrawColor(renderer, pixel.r, pixel.g, pixel.b, 255);
+			// Draw the pixel's colour to the SDL Renderer
+			SDL_SetRenderDrawColor(renderer, screen[y][x].r, screen[y][x].g, screen[y][x].b, 255);
 			SDL_RenderDrawPoint(renderer, x, y);
 		}
 	}
 
+	// Present the scene
 	SDL_RenderPresent(renderer);
 }

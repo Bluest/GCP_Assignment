@@ -21,7 +21,7 @@ Prompts the user to enter an integer value, the ray tracer will trace this many 
 [5] Change number of threads:
 Modifies the number of threads used to draw the scene.
 Prompts the user to enter the amount of threads that the ray tracer will utilise.
-By default, this value is set to the maximum amount of logical processors available on the device.
+By default, this value is set to the amount of logical processors available on the device.
 
 [6] Quit:
 Quits the program and closes the window.

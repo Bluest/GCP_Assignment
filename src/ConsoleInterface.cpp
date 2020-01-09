@@ -73,15 +73,8 @@ void ConsoleInterface::processInput()
 	else if (input == "5")
 	{
 		// Change number of threads
-		std::cout << "Enter new number of threads (Maximum " << std::thread::hardware_concurrency() << "): ";
+		std::cout << "Enter new number of threads (" << std::thread::hardware_concurrency() << " logical processors available): ";
 		std::cin >> cameraSettings.numberOfThreads;
-
-		// Because numberOfThreads and hardware_concurrency() are unsigned integers,
-		// A negative input will underflow and also result in this statement being true
-		if (cameraSettings.numberOfThreads > std::thread::hardware_concurrency())
-		{
-			cameraSettings.numberOfThreads = std::thread::hardware_concurrency();
-		}
 	}
 	else if (input == "6")
 	{
@@ -89,4 +82,3 @@ void ConsoleInterface::processInput()
 		quit = true;
 	}
 }
- 
